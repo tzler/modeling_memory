@@ -1,0 +1,92 @@
+Anthony, Kevin, Aran, Dan, tyler
+
+where are we at? 
+    - still focusing on understanding the memory tasks we're interested in modeling
+    - Anthony sent out a few papers related to hierarchical task
+    - Aran and Kevin have been talking about how we might use Kevin's framework
+
+KEVIN: 
+  when would my "memory" tasks fail? 
+    - most trivial memory task: 
+      - adding a fixed time delay
+      - requiring some level of recurrance, not yet external memory 
+      - ANTHONY: what do you mean by time delay? 
+      - implicit to the model: image -- > touch 
+        so timing delays can be 
+        1) stimulus encoding. performing a 1-back task, basically 
+        2a) longer retention interval with no stimulus in the interval (model implicitly touch to proceed) 
+        2b) longer retention interval with stimulus being presenting in the interval (less mnenomic demands) 
+        3) [...tyler missed this...] 
+  
+DAN: difference between a fixed delay and an arbitrary delay
+        
+ANTHONY: how do humans solve this task? 
+  - PRC lesions impair performance with samples that are equally familiar
+    - if they're not equally familiar perirhinal can solve this task 
+  - debate in the literature
+      "you don't need the hippocampus to do working memory tasks" 
+      but imaging studies suggest that HPC is online for this
+      one world view: the hippocampus plays a role in maintaining task information in a "working memory" like way
+      
+    three stories: for even simple 'memory' tasks 
+    [1]   FPC: maintaining relevent task representations 
+    [2]   PRC: signal detection like - familiarity signal 
+    [3]   HPC: pattern completion/reinstatementi/reactivation 
+
+DAN 
+  [2] is an activity state story 
+  both [2] and [3] involve synaptic changes 
+
+ANTHONY
+  a puzzle in recognition decisions tasks [2] 
+  - repitition suppression occurs throughout the ventral visual stream, but lesions of PRC result in recognition deficiets
+    - priming occurs throughout IT 
+    - behavioral expressions of memory
+    - speeds up RTs 
+    - amnesics will be faster at the task
+        - but they're at chance in making simple recognition memory decisions 
+        - Larry Squire: something migical about memory vs. Saksida 
+    - decision is IN THE DECISION 
+
+  a story for [3]
+    - using the familiarity along with all the other features to recover contextual information also present at encoding 
+    - TASKS require recovering contextual information
+        - decision is NOT IN THE STIMULUS 
+
+ANTHONY 
+  
+  [1] vs [2] 
+  - attentional focus distinguishes between these two. 
+  - from the lesion literature:
+    - EP is a densly amnesiac patient, like HM 
+    - EP can maintain an item in memory and repeat it later
+    - EP can't if there are distractors
+    - IF YOU BREAK THE ATTENTIONAL FOCUS and you don't have some rapid plasticity (in PRC) you can't solve the task
+  - ALSO: predictible interactures 
+    - unreliable statistics reqiure different more sophisticated performance
+  
+  [2] vs [3]
+  - context retreival 
+  - that is, not just recovering the item/task in memory, but other information incident to the task
+
+  literature has been: 
+    - the hippocampus is really about time 
+      - post encoding intervals of < 2 seconds, probably not HPC 
+      - post encoding intervals of > 8-10 secnod, probably HPC
+       
+           (!) EARL PHASES (!) 
+      
+      - in match to sample task 
+        - it's the first sample that matters 
+        - intervening stimuli don't (distractors)
+        - IT representations of targets are "maintained" during empty intervals
+        - IT representations of targets are NOT maintained if there are distractors
+        - linear readout of IT doesn't track familiarity judgments
+          - linear readout of PFC does
+
+MOVING FORWARD: 
+    - Kevin: we're going to want to go after [1] vs [2]
+    - Aran + tyler: going after [2] vs [3]
+    - ptutils is almost ready 
+    - Aran creating a github repository for project notes/literature/code/etc. 
+
