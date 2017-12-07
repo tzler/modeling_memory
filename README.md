@@ -5,3 +5,4 @@ shared folder for notes, literature, and code for modeling memory
     - Polyn et al. 2009: This paper discusses the context maintenance and retrieval (CMR) model, and generalizes the TCM to address the recency, contiguity, and semantic (prior association) effects in free recall, as well as another effect due to ‘source’ which could refer to ‘was the word spoken by a man or a woman’ or ‘was the word presented when I was thinking about how big the item was or when I was thinking about whether it was living or not’.
     - Graves et al. 2016: Original DNC paper, which builds off of the Neural Turing Machine (NTM) and is also inspired by TCM.
     - Rae et al. 2016: Augmenting the NTM and DNC with sparse reads, writes, and memories so that it scales better.
+    - Hsin CS 224N 2017: TensorFlow implementation of DNC for CS 224N course project, helpful in that it nicely breaks down and explains each component of the DNC.
