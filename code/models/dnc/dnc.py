@@ -10,20 +10,20 @@ from .memory import *
 
 class DNC(nn.Module):
 
-	def __init__(
-	  self,
-	  input_size,
-	  hidden_size,
-	  rnn_type='lstm',
-	  num_ctrl_layers=1,
-	  batch_first=True,
-	  bias=True,
-	  dropout=0,
-	  nonlinearity='tanh',
-	  num_mem=5,
-	  mem_size=10,
-	  read_heads=2
-	):
+    def __init__(
+      self,
+      input_size,
+      hidden_size,
+      rnn_type='lstm',
+      num_ctrl_layers=1,
+      batch_first=True,
+      bias=True,
+      dropout=0,
+      nonlinearity='tanh',
+      num_mem=5,
+      mem_size=10,
+      read_heads=2
+    ):
     super(DNC, self).__init__()
 
     self.input_size = input_size
@@ -48,15 +48,15 @@ class DNC(nn.Module):
     self.nn_input_size = self.input_size + self.read_vectors_size
     self.nn_output_size = self.output_size + self.read_vectors_size
 
-	if self.rnn_type.lower() == 'rnn':
-		self.ctrl = nn.RNN(self.nn_input_size, self.output_size,
-	                        bias=self.bias, nonlinearity=self.nonlinearity, batch_first=self.batch_first, dropout=self.dropout, num_layers=self.num_ctrl_layers)
-	elif self.rnn_type.lower() == 'gru':
-		self.ctrl = nn.GRU(self.nn_input_size, self.output_size, 
-			                bias=self.bias, batch_first=self.batch_first, dropout=self.dropout, num_layers=self.num_ctrl_layers)
-	elif self.rnn_type.lower() == 'lstm':
-		self.ctrl = nn.LSTM(self.nn_input_size self.nn_output_size,
-	                        bias=self.bias, batch_first=self.batch_first, dropout=self.dropout, num_layers=self.num_ctrl_layers)
+    if self.rnn_type.lower() == 'rnn':
+        self.ctrl = nn.RNN(self.nn_input_size, self.output_size,
+                            bias=self.bias, nonlinearity=self.nonlinearity, batch_first=self.batch_first, dropout=self.dropout, num_layers=self.num_ctrl_layers)
+    elif self.rnn_type.lower() == 'gru':
+        self.ctrl = nn.GRU(self.nn_input_size, self.output_size, 
+                            bias=self.bias, batch_first=self.batch_first, dropout=self.dropout, num_layers=self.num_ctrl_layers)
+    elif self.rnn_type.lower() == 'lstm':
+        self.ctrl = nn.LSTM(self.nn_input_size self.nn_output_size,
+                            bias=self.bias, batch_first=self.batch_first, dropout=self.dropout, num_layers=self.num_ctrl_layers)
 
     self.memory = Memory(
               input_size=self.output_size,
