@@ -5,7 +5,6 @@ import torch.nn.functional as F
 
 import numpy as np
 
-from .util import *
 from .memory import *
 
 class DNC(nn.Module):
@@ -60,8 +59,8 @@ class DNC(nn.Module):
 
         self.memory = Memory(
                   input_size=self.output_size,
-                  mem_size=self.num_mem,
-                  cell_size=self.W,
+                  num_mem=self.num_mem,
+                  mem_len=self.W,
                   read_heads=self.r)
 
         # final output layer
