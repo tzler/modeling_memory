@@ -98,4 +98,81 @@ class Memory(nn.Module):
 
         return hidden
 
+    def get_usage_vector(self, usage, free_gates, read_weights, write_weights):
+        usage = usage + (1 - usage) * (1 - T.prod(1 - write_weights, 1))
+        ψ = T.prod(1 - free_gates.unsqueeze(2) * read_weights, 1)
+        return usage * ψ
+
+
+    def allocate(self, usage, write_gate):
+        # ensure values are not too small prior to cumprod.
+        usage = δ + (1 - δ) * usage
+        batch_size = usage.size(0)
+        # free list
+        sorted_usage, φ = T.topk(usage, self.num_mem, dim=1, largest=False, sorted=True)
+
+        # cumprod with exclusive=True
+        # https://discuss.pytorch.org/t/cumprod-exclusive-true-equivalences/2614/8
+        v = var(sorted_usage.data.new(batch_size, 1).fill_(1))
+        cat_sorted_usage = T.cat((v, sorted_usage), 1)
+        prod_sorted_usage = T.cumprod(cat_sorted_usage, 1)[:, :-1]
+
+        sorted_allocation_weights = (1 - sorted_usage) * prod_sorted_usage.squeeze()
+
+        # construct the reverse sorting index https://stackoverflow.com/questions/2483696/undo-or-reverse-argsort-python
+        _, φ_rev = T.topk(φ, k=self.num_mem, dim=1, largest=False, sorted=True)
+        allocation_weights = sorted_allocation_weights.gather(1, φ_rev.long())
+
+        return allocation_weights.unsqueeze(1), usage
+
+    def write_weighting(self, memory, write_content_weights, allocation_weights, write_gate, allocation_gate):
+        ag = allocation_gate.unsqueeze(-1)
+        wg = write_gate.unsqueeze(-1)
+        return wg * (ag * allocation_weights + (1 - ag) * write_content_weights)
+
+    def get_link_matrix(self, link_matrix, write_weights, precedence):
+        precedence = precedence.unsqueeze(2)
+        write_weights_i = write_weights.unsqueeze(3)
+        write_weights_j = write_weights.unsqueeze(2)
+
+        prev_scale = 1 - write_weights_i - write_weights_j
+        new_link_matrix = write_weights_i * precedence
+
+        link_matrix = prev_scale * link_matrix + new_link_matrix
+        # remove diagonal elements since I has 0's on the diagonal and 1 on off diagonal
+        return self.I.expand_as(link_matrix) * link_matrix
+
+    def forward(self, ξ, hidden):
+        N = self.num_mem
+        W = self.mem_len
+        r = self.read_heads
+        b = ξ.size()[0]
+
+        ξ = self.interface_weights(ξ)
+        # r read keys (b * W * r)
+        read_keys = F.tanh(ξ[:, :r * w].contiguous().view(b, r, W))
+        # r read strengths (b * r)
+        read_strengths = F.softplus(ξ[:, r * W:r * W + r].contiguous().view(b, r))
+        # write key (b * W * 1)
+        write_key = F.tanh(ξ[:, r * W + r:r * W + r + W].contiguous().view(b, 1, W))
+        # write strength (b * 1)
+        write_strength = F.softplus(ξ[:, r * W + r + W].contiguous().view(b, 1))
+        # erase vector (b * W)
+        erase_vector = F.sigmoid(ξ[:, r * W + r + W + 1: r * W + r + 2 * W + 1].contiguous().view(b, 1, W))
+        # write vector (b * W)
+        write_vector = F.tanh(ξ[:, r * W + r + 2 * W + 1: r * W + r + 3 * W + 1].contiguous().view(b, 1, W))
+        # r free gates (b * r)
+        free_gates = F.sigmoid(ξ[:, r * W + r + 3 * W + 1: r * W + 2 * r + 3 * W + 1].contiguous().view(b, r))
+        # allocation gate (b * 1)
+        allocation_gate = F.sigmoid(ξ[:, r * W + 2 * r + 3 * W + 1].contiguous().unsqueeze(1).view(b, 1))
+        # write gate (b * 1)
+        write_gate = F.sigmoid(ξ[:, r * W + 2 * r + 3 * W + 2].contiguous()).unsqueeze(1).view(b, 1)
+        # read modes (b * 3 * r)
+        read_modes = σ(ξ[:, r * W + 2 * r + 3 * W + 2: r * W + 5 * r + 3 * W + 2].contiguous().view(b, r, 3), 1)
+
+        hidden = self.write(write_key, write_vector, erase_vector, free_gates,
+                        read_strengths, write_strength, write_gate, allocation_gate, hidden)
+
+        return self.read(read_keys, read_strengths, read_modes, hidden)
+
 
