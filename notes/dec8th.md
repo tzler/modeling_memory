@@ -8,7 +8,7 @@
 	type [2] task: PRC dependent : familiarity ish
 	type [3] task: HPC dependent : episodic ish
 
-###WHERE ARE WE AT?
+### WHERE ARE WE AT?
 
 > - going over the levels of tasks in relation to context
 > - relating kb to kf memory tasks that keven is working
@@ -67,7 +67,7 @@ even for humans:
 	type [3] story
 		- false alarm rate isn't as high as it should be for a PRC dependent
 		- Malcom Brown
-  			- recognition memory is preserved in rodents with PRC (??) lesions
+  			- recognition memory is preserved in rodents with HPC lesions
 
 
 **ANTHONY:**
