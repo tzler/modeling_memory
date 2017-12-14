@@ -4,9 +4,9 @@
 	HPC:  Hippocampus 
 	PRC:  Precuneous 
 	
-	type [1] task: FPC dependent : working memory ish
-	type [2] task: PRC dependent : familiarity ish
-	type [3] task: HPC dependent : episodic ish
+	type [1] task: FPC dependent : ~ working memory
+	type [2] task: PRC dependent : ~ familiarity
+	type [3] task: HPC dependent : ~ episodic 
 
 ### WHERE ARE WE AT?
 
@@ -41,7 +41,7 @@
 	(5) associative recognition paradigm
 
 
-::: there was some generally discussion of how much computationally difficulty map onto "effort" in the task:::
+::: there was some generally discussion of how much computationally difficulty map onto "effort" in the task :::
 
 
 ### differentiating task rule learning and memory
@@ -69,8 +69,6 @@ even for humans:
 		- Malcom Brown
   			- recognition memory is preserved in rodents with HPC lesions
 
-
-**ANTHONY:**
 
 > - it seems like there are two general ideas on the table:
 >     1. learning about task structure
